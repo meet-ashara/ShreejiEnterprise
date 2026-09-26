@@ -1,0 +1,16 @@
+{% block content %}
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    {% for item in cart.items.all %}
+        <div class="cart-item">
+            <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+            <span>₹{{ item.product.price * item.quantity }}</span>
+            <a href="{% url 'remove_from_cart' item.id %}" class="remove-item-btn">Remove</a>
+        </div>
+    {% endfor %}
+    <div class="total-price">
+        Total: ₹{{ total_price }}
+    </div>
+    <a href="/checkout" class="checkout-btn">Proceed to Checkout</a>
+</div>
+{% endblock %}

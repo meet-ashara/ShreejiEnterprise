@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock title %}
+
+{% block hero %}
+<div class="flex justify-center items-center min-h-screen ">
+  <div class=" bg-rose-50 p-8 rounded-lg shadow-lg max-w-md w-full" data-aos="fade-up">
+    <h2 id="form-title" class="text-2xl font-bold text-center text-red-950 mb-6">Login</h2>
+
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- LOGIN FORM -->
+    <form id="login-form" method="POST" action="{% url 'login' %}" class="space-y-4">
+      {% csrf_token %}
+      <input type="email" name="email" class="w-full p-3 border border-slate-300 rounded-lg" placeholder="Email" required>
+
+      <div class="relative">
+        <input type="password" name="password" id="login-password"
+               class="w-full p-3 border border-slate-300 rounded-lg pr-10"
+               placeholder="Password" required>
+        <span onclick="togglePassword('login-password', this)"
+              class="eye-toggle absolute right-3 top-3 cursor-pointer text-gray-500 hidden">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5
+                     c4.477 0 8.268 2.943 9.542 7
+                     -1.274 4.057-5.065 7-9.542 7
+                     -4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+        </span>
+      </div>
+
+      <button type="submit"
+  class="w-full bg-red-950 text-white py-3 rounded-lg hover:bg-slate-900 flex justify-center items-center gap-2"
+  id="login-btn">
+  <svg id="login-spinner" class="w-5 h-5 text-white animate-spin hidden" fill="none"
+    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle class="opacity-25" cx="12" cy="12" r="10"
+      stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor"
+      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+  <span id="login-text">Login</span>
+</button>
+
+    </form>
+
+    <!-- REGISTER FORM (Initially Hidden) -->
+    <form id="register-form" method="POST" action="{% url 'register' %}" class="space-y-4 hidden">
+      {% csrf_token %}
+      <input type="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Email" required>
+
+      <div class="relative">
+        <input type="password" name="password1" id="register-password1"
+               class="w-full p-3 border border-gray-300 rounded-lg pr-10"
+               placeholder="Password" required>
+        <span onclick="togglePassword('register-password1', this)"
+              class="eye-toggle absolute right-3 top-3 cursor-pointer text-gray-500 hidden">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5
+                     c4.477 0 8.268 2.943 9.542 7
+                     -1.274 4.057-5.065 7-9.542 7
+                     -4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="relative">
+        <input type="password" name="password2" id="register-password2"
+               class="w-full p-3 border border-gray-300 rounded-lg pr-10"
+               placeholder="Confirm Password" required>
+        <span onclick="togglePassword('register-password2', this)"
+              class="eye-toggle absolute right-3 top-3 cursor-pointer text-gray-500 hidden">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5
+                     c4.477 0 8.268 2.943 9.542 7
+                     -1.274 4.057-5.065 7-9.542 7
+                     -4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+        </span>
+      </div>
+
+      <button type="submit"
+  class="w-full bg-red-950 text-white py-3 rounded-lg hover:bg-slate-900 flex justify-center items-center gap-2"
+  id="register-btn">
+  <svg id="register-spinner" class="w-5 h-5 text-white animate-spin hidden" fill="none"
+    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle class="opacity-25" cx="12" cy="12" r="10"
+      stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor"
+      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+  <span id="register-text">Register</span>
+</button>
+
+    </form>
+
+    <!-- TOGGLE BETWEEN LOGIN & REGISTER -->
+    <p class="text-sm text-gray-600 mt-4 text-center">
+      <span id="toggle-text">Don't have an account?</span>
+      <a href="#" id="toggle-link" class="text-red-950 font-bold">Register</a>
+    </p>
+
+    <p class="text-sm text-gray-600 mt-4 text-center">
+      <a href="{% url 'forgot_password' %}" class="text-red-950 font-bold">Forgot Password?</a>
+    </p>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+  // Toggle password visibility
+  function togglePassword(inputId, toggleIcon) {
+    const input = document.getElementById(inputId);
+    const type = input.getAttribute("type") === "password" ? "text" : "password";
+    input.setAttribute("type", type);
+    toggleIcon.classList.toggle("text-gray-800");
+  }
+
+  // Toggle eye icon visibility on input
+  function handlePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = input.parentElement.querySelector(".eye-toggle");
+
+    input.addEventListener("input", () => {
+      if (input.value.trim().length > 0) {
+        icon.classList.remove("hidden");
+      } else {
+        icon.classList.add("hidden");
+      }
+    });
+  }
+
+  // Attach to all password fields
+  handlePasswordVisibility("login-password");
+  handlePasswordVisibility("register-password1");
+  handlePasswordVisibility("register-password2");
+
+  // Form toggle logic
+  document.getElementById("toggle-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    let loginForm = document.getElementById("login-form");
+    let registerForm = document.getElementById("register-form");
+    let formTitle = document.getElementById("form-title");
+    let toggleText = document.getElementById("toggle-text");
+    let toggleLink = document.getElementById("toggle-link");
+
+    if (loginForm.classList.contains("hidden")) {
+      registerForm.classList.add("hidden");
+      loginForm.classList.remove("hidden");
+      formTitle.textContent = "Login";
+      toggleText.textContent = "Don't have an account?";
+      toggleLink.textContent = "Register";
+    } else {
+      loginForm.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+      formTitle.textContent = "Create an Account";
+      toggleText.textContent = "Already have an account?";
+      toggleLink.textContent = "Login";
+    }
+  });
+</script>
+<script>
+    document.getElementById("login-form").addEventListener("submit", function () {
+      document.getElementById("login-spinner").classList.remove("hidden");
+      document.getElementById("login-text").textContent = "Logging in...";
+    });
+  
+    document.getElementById("register-form").addEventListener("submit", function () {
+      document.getElementById("register-spinner").classList.remove("hidden");
+      document.getElementById("register-text").textContent = "Registering...";
+    });
+  </script>
+  
+{% endblock %}

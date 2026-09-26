@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block hero %}
+<div class="flex items-center justify-center min-h-screen">
+    <div class="bg-rose-50 p-8 rounded-lg shadow-lg max-w-md w-full" data-aos="fade-up">
+        <h2 class="text-2xl font-semibold text-center text-red-950 mb-6">Create an Account</h2>
+
+        <!-- Display error messages -->
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-2" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'register' %}" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" name="email" value="{{ form.email.value }}" required class="w-full p-3 border border-gray-300 rounded-lg">
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="password1" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" name="password1" required class="w-full p-3 border border-gray-300 rounded-lg">
+                {% if form.password1.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.password1.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input type="password" name="password2" required class="w-full p-3 border border-gray-300 rounded-lg">
+                {% if form.password2.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.password2.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="w-full bg-red-950 text-white py-3 rounded-lg hover:bg-slate-900 transition duration-300">Register</button>
+        </form>
+        
+        <p class="text-sm text-gray-600 mt-4 text-center">Already have an account? <a href="{% url 'login' %}" class="text-red-950 font-semibold">Login</a></p>
+    </div>
+</div>
+{% endblock %}

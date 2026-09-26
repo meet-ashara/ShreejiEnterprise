@@ -1,0 +1,132 @@
+<!-- Contact Us Page -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div>
+    <section class="bg-rose-200 rounded-xl shadow-lg p-8 my-10" data-aos="fade-up" data-aos-duration="1000">
+        <div class="relative z-10 text-center">
+            <p class="text-2xl text-rose-950 max-w-3xl mx-auto leading-relaxed" style="font-family: 'Playfair Display', serif;">
+                Get in touch with us for any inquiries, feedback, or assistance. We are here to help you!
+            </p>
+        </div>
+    </section>
+    </div>
+
+<!-- Contact Information Section -->
+<section class="bg-rose-200 rounded-xl shadow-lg p-8 my-10" data-aos="fade-up" data-aos-duration="1000">
+    <h2 class="text-4xl font-bold text-center mb-6 text-rose-950" style="font-family: 'Playfair Display', serif;">Contact Information</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow ">
+            <h3 class="text-xl font-bold mb-3">Our Office</h3>
+            <ul class="space-y-2">
+                <li><strong>Address:</strong> Shreeji Enterprise, Jetpur Navagadh, Gujarat, India</li>
+                <li><strong>Phone:</strong> +91 84018 12227</li>
+                <li><strong>Email:</strong> shreejienterprises840181@gmail.com</li>
+            </ul>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow ">
+            <h3 class="text-xl font-bold mb-3">Business Hours</h3>
+            <ul class="space-y-2">
+                <li><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</li>
+                <li><strong>Saturday:</strong> 10:00 AM - 4:00 PM</li>
+                <li><strong>Sunday:</strong> Closed</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="bg-rose-200 rounded-xl shadow-lg p-8 my-10" data-aos="fade-up" data-aos-duration="1000">
+    <h2 class="text-4xl font-bold text-center mb-6 text-rose-950" style="font-family: 'Playfair Display', serif;" data-aos="fade-down" data-aos-duration="800">
+        Get in Touch
+    </h2>
+    <form action="{% url 'contact' %}" method="POST" class="space-y-6" id="contactForm">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div data-aos="fade-right" data-aos-duration="800">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Your Name</label>
+                <input type="text" id="name" name="name" class="block w-full p-3 rounded-lg border border-gray-300 focus:ring-rose-500 focus:border-rose-500 transition duration-300 transform hover:scale-105" required>
+            </div>
+            <div data-aos="fade-left" data-aos-duration="800">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Your Email</label>
+                <input type="email" id="email" name="email" class="block w-full p-3 rounded-lg border border-gray-300 focus:ring-rose-500 focus:border-rose-500 transition duration-300 transform hover:scale-105" required>
+            </div>
+        </div>
+        <div data-aos="zoom-in" data-aos-duration="800">
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-700">Your Message</label>
+            <textarea id="message" name="message" rows="5" class="block w-full p-3 rounded-lg border border-gray-300 focus:ring-rose-500 focus:border-rose-500 transition duration-300 transform hover:scale-105" required></textarea>
+        </div>
+        <div class="flex justify-center w-full mt-6" data-aos="fade-up" data-aos-duration="800">
+            <button type="submit" id="submitButton" class="px-6 py-3 bg-rose-950 text-white rounded-lg hover:bg-rose-800 transition duration-300 transform hover:scale-110 flex items-center justify-center gap-2">
+                <span>Send Message</span>
+                <div id="loadingSpinner" class="hidden animate-spin w-5 h-5 border-2 border-t-transparent border-white rounded-full"></div>
+            </button>
+        </div>
+    </form>
+</section>
+
+<!-- JavaScript Alert Box -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contactForm = document.getElementById('contactForm');
+        const submitButton = document.getElementById('submitButton');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Initialize AOS when the page loads
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
+
+        contactForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Disable the submit button and show loading spinner
+            submitButton.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: new FormData(contactForm),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ Your message has been sent successfully!');
+                    contactForm.reset();
+
+                    // Reinitialize AOS animations
+                    setTimeout(() => {
+                        AOS.init();
+                    }, 100); // Adding a slight delay to ensure animations trigger properly
+                } else {
+                    alert('❌ Something went wrong. Please try again.');
+                }
+            })
+            .catch(error => alert('❌ An error occurred. Please try again.'))
+            .finally(() => {
+                // Re-enable the submit button and hide loading spinner
+                submitButton.disabled = false;
+                loadingSpinner.classList.add('hidden');
+            });
+        });
+    });
+</script>
+
+
+<!-- Google Map Section -->
+<section class="rounded-xl shadow-lg overflow-hidden mb-10" data-aos="fade-up">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.514342537838!2d70.6129054!3d21.7729149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395819932e612443%3A0x1541e544798464af!2sShreeji%20Enterprise!5e0!3m2!1sen!2sin!4v1615868022620!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+{% endblock content %}

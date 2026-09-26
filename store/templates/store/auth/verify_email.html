@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Verify Email{% endblock title %}
+
+{% block hero %}
+<div class="flex justify-center items-center min-h-screen">
+    <div class="bg-rose-50 p-8 rounded-lg shadow-lg max-w-md w-full" data-aos="fade-up">
+        <h2 class="text-2xl font-bold text-center text-red-950 mb-6">Email Verification</h2>
+
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-2">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'verify_email' %}" class="space-y-4">
+            {% csrf_token %}
+            <input type="number" name="otp" class="w-full p-3 border border-slate-300 rounded-lg" placeholder="Enter OTP" required>
+            <button type="submit" class="w-full bg-red-950 text-white py-3 rounded-lg hover:bg-slate-900 transition duration-300">Verify Email</button>
+        </form>
+
+        <p class="text-sm text-gray-600 mt-4 text-center">
+            This OTP is valid for <span id="countdown" class="text-red-600 font-bold">10:00</span> minutes.
+        </p>
+
+        <p class="text-sm text-gray-600 mt-4 text-center">
+            <a href="{% url 'register' %}" class="text-red-950 font-bold hover:underline">Back to Register</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    let minutes = 10;
+    let seconds = 0;
+    const countdown = document.getElementById('countdown');
+
+    const timer = setInterval(() => {
+        if (seconds === 0) {
+            if (minutes === 0) {
+                clearInterval(timer);
+                countdown.innerText = "Expired";
+                countdown.classList.add("text-red-800");
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
+        countdown.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }, 1000);
+</script>
+{% endblock %}

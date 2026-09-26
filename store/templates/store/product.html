@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Products
+{% endblock %}
+
+{% block product %}
+  <section class="container mx-auto py-12">
+    <h2 class="text-3xl font-bold text-rose-950 text-center mb-6" data-aos="fade-up" style="font-family: 'Menlo'">OUR COLLECTION</h2>
+
+    <!-- Search & Filter Section -->
+    <div class="flex justify-between items-center px-4 mb-6">
+      <input type="text" id="search" placeholder="Search" class="p-2 border rounded-lg w-1/3" />
+    </div>
+    <div class="flex justify-between items-center px-4 mb-6">
+      <!-- Sorting by Price -->
+      <select id="sortPrice" class="p-2 border rounded-lg">
+        <option value="default">Sort by Price</option>
+        <option value="low-high">Low to High</option>
+        <option value="high-low">High to Low</option>
+      </select>
+
+      <!-- Fabric Type Filter -->
+      <select id="fabricFilter" class="p-2 border rounded-lg">
+        <option value="all">All Fabrics</option>
+        {% for fabric in fabric_types %}
+        <option value="{{ fabric }}">{{ fabric|capfirst }}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="product-list" class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+      {% for product in products %}
+        <div class="product-card bg-white shadow-lg rounded-lg p-4 cursor-pointer transform transition-all duration-300 ease-in-out" data-price="{{ product.price }}" data-fabric="{{ product.description|lower }}" data-name="{{ product.name|lower }}" data-description="{{ product.description|lower }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00" onclick="openModal('{{ product.id }}')">
+          <div class="overflow-hidden rounded-xl">
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="w-full h-72 object-cover rounded-xl transition-transform duration-300 hover:scale-105" />
+          </div>
+          <h3 class="text-lg font-bold mt-4">{{ product.name }}</h3>
+          <p class="mt-2">{{ product.description }}</p>
+          <p class="font-bold mt-2">₹{{ product.price }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Quick View Modal -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-[90vh] overflow-y-auto relative opacity-0 transform scale-95 transition-all duration-300 ease-in-out">
+      <button class="absolute top-2 right-2" onclick="closeModal()">&times;</button>
+      <img id="modal-image" src="" alt="Product Image" class="w-full max-h-[70vh] rounded-lg transition-opacity duration-300 ease-in-out" />
+      <h3 id="modal-title" class="text-xl font-bold mt-4"></h3>
+      <p id="modal-description" class="mt-2"></p>
+      <p id="modal-price" class="font-bold mt-2"></p>
+
+      <!-- Color Selection -->
+      <div class="mt-4">
+        <label class="block font-semibold">Select Color:</label>
+        <div id="color-options" class="flex space-x-2 mt-2"></div> <!-- Color buttons will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let products = [
+    {% for product in products %}
+    {
+        id: "{{ product.id }}",
+        name: "{{ product.name }}",
+        description: "{{ product.description.distinct }}",
+        price: "{{ product.price }}",
+        colorImageMap: {
+            {% for img in product.images.all %}
+            {% for color in img.colors.all %}
+            "{{ color.color_code }}": "{{ img.image.url }}",
+            {% endfor %}
+            {% endfor %}
+        }
+    },
+    {% endfor %}
+    ];
+
+    function openModal(productId) {
+        let product = products.find(p => p.id == productId);
+        if (!product) return;
+    
+        let modal = document.getElementById('product-modal');
+        let modalContent = modal.querySelector('.bg-white');
+        modalContent.classList.add('opacity-0', 'scale-95');
+        modalContent.offsetHeight;
+        modalContent.classList.remove('opacity-0', 'scale-95');
+    
+        document.getElementById('modal-title').textContent = product.name;
+        document.getElementById('modal-description').textContent = product.description;
+        document.getElementById('modal-price').textContent = '₹' + product.price;
+    
+        let colorOptions = document.getElementById('color-options');
+        colorOptions.innerHTML = '';
+        let firstColor = Object.keys(product.colorImageMap)[0];
+        document.getElementById('modal-image').src = product.colorImageMap[firstColor];
+    
+        Object.entries(product.colorImageMap).forEach(([color, imageUrl]) => {
+            let btn = document.createElement('button');
+            btn.style.backgroundColor = color;
+            btn.classList.add('w-6', 'h-6', 'rounded-full', 'border', 'border-gray-300', 'cursor-pointer', 'focus:ring', 'transition-all', 'duration-300', 'ease-in-out');
+            btn.onclick = () => document.getElementById('modal-image').src = imageUrl;
+            colorOptions.appendChild(btn);
+        });
+    
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden'); // 🛑 Prevent scrolling background
+        setTimeout(() => modalContent.classList.remove('opacity-0', 'scale-95'), 50);
+    }
+    
+    
+    
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('product-modal');
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    function closeModal() {
+        const modal = document.getElementById('product-modal');
+        const content = modal.querySelector('.bg-white');
+    
+        content.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden'); // ✅ Unlock scroll
+        }, 300);
+    }
+    
+</script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search");
+        const sortSelect = document.getElementById("sortPrice");
+        const fabricFilter = document.getElementById("fabricFilter");
+        const productList = document.getElementById("product-list");
+        let products = document.querySelectorAll(".product-card");
+    
+        // Search Function
+        searchInput.addEventListener("input", function () {
+            let query = searchInput.value.toLowerCase();
+            products.forEach(product => {
+                let name = product.querySelector("h3").textContent.toLowerCase();
+                let description = product.querySelector("p").textContent.toLowerCase();
+                product.style.display = (name.includes(query) || description.includes(query)) ? "block" : "none";
+            });
+        });
+    
+        // Sorting Function
+        sortSelect.addEventListener("change", function () {
+            let sortedProducts = Array.from(products);
+            products.forEach(product => product.classList.add('sorting')); // Add sorting class
+    
+            if (sortSelect.value === "low-high") {
+                sortedProducts.sort((a, b) => a.dataset.price - b.dataset.price);
+            } else if (sortSelect.value === "high-low") {
+                sortedProducts.sort((a, b) => b.dataset.price - a.dataset.price);
+            }
+    
+            setTimeout(() => {
+                sortedProducts.forEach(product => productList.appendChild(product));
+                products.forEach(product => product.classList.remove('sorting')); // Remove sorting class
+            }, 500); // Wait for the animation to finish
+        });
+    
+        // Fabric Type Filtering
+        fabricFilter.addEventListener("change", function () {
+            let selectedFabric = fabricFilter.value;
+            products.forEach(product => {
+                let fabric = product.dataset.fabric;
+                if (selectedFabric === "all" || fabric.includes(selectedFabric)) {
+                    product.style.display = "block";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

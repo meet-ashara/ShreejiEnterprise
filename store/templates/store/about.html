@@ -1,0 +1,100 @@
+<!-- About Us Page -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="relative bg-rose-200  rounded-xl shadow-lg p-8 my-10 overflow-hidden" data-aos="fade-up">
+    <!-- <div class="absolute inset-0 bg-rose-950 opacity-30"></div> -->
+    <div class="relative z-10 text-center">
+        <!-- <h1 class="text-4xl font-bold text-center mb-6  ">About Us</h1> -->
+        <p class=" text-2xl text-rose-950  max-w-3xl mx-auto leading-relaxed" style="font-family: 'Playfair Display', serif;">
+            Established in 2001 at Jetpur Navagadh, Gujarat, <strong>Shreeji Enterprise</strong> is a reputed manufacturer known for excellence and timely deliveries at affordable prices, earning us a vast client base.
+        </p>
+    </div>
+</section>
+
+
+<!-- Factsheet Section -->
+<section class="bg-rose-200 rounded-xl shadow-lg p-8 my-10" data-aos="fade-up">
+    <h2 class="text-4xl font-bold text-center mb-6 text-rose-950" style="font-family: 'Playfair Display', serif;">Factsheet</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow transition-transform hover:scale-105">
+            <h3 class="text-xl font-bold mb-3">Basic Information</h3>
+            <ul class="space-y-2">
+                <li><strong>Nature of Business:</strong> Retailer</li>
+                <li><strong>Additional Business:</strong> Retail & Wholesale Business</li>
+                
+                <li><strong>Total Employees:</strong> Upto 10 People</li>
+                <li><strong>GST Registration Date:</strong> 24-07-2017</li>
+                <li><strong>Legal Status:</strong> Proprietorship</li>
+                <li><strong>Annual Turnover:</strong> 0 - 40 L</li>
+                <li><strong>GST Partner:</strong> Rajeshkumar Shantilal Aashara</li>
+            </ul>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow transition-transform hover:scale-105">
+            <h3 class="text-xl font-bold mb-3">Statutory Profile</h3>
+            <ul class="space-y-2">
+                <li><strong>Banker:</strong> BANK OF BARODA</li>
+                <li><strong>GST No.:</strong> 24AUIPA4181G1ZY</li>
+            </ul>
+            <h3 class="text-xl font-bold mb-3 mt-6">Payment & Shipment</h3>
+            <ul class="space-y-2">
+                <li><strong>Payment Modes:</strong> Credit Card, Cash, DD, Bank Transfer, Cheque</li>
+                <li><strong>Shipment Mode:</strong> By Road</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Why Us Section -->
+<section class="bg-rose-200 rounded-xl shadow-lg p-8 my-10" data-aos="fade-up">
+    <h2 class="text-4xl font-bold text-center mb-6 text-rose-950" style="font-family: 'Playfair Display', serif;">Why Choose Us?</h2>
+    <div class="flex flex-col md:flex-row justify-center gap-8">
+        <div class="bg-white p-6 rounded-lg shadow transition-transform hover:scale-105">
+            <ul class="space-y-3">
+                <li>✅ In-depth industry knowledge</li>
+                <li>✅ Timely completion of orders</li>
+                <li>✅ Transparent business dealings</li>
+                <li>✅ Qualified & trained team of professionals</li>
+                <li>✅ Market-leading prices</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="container mx-auto py-12">
+    <h1 class="text-4xl font-bold  text-center mb-6" style="font-family: 'Playfair Display', serif;" data-aos="fade-up">OUR TEAM</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+        <!-- Product Card 1 -->
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/paaas.jpg' %}" alt="Dupatta" class="w-full hover:scale-105 h-76 object-cover rounded-xl transition-transform duration-300 ">
+            </div>
+            <h3 class="text-lg font-bold mt-4" style="font-family: 'Playfair Display', serif;">Meet Ashara</h3>
+            <p class="text-gray-600 mt-2">Developer</p>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/JIT_7735.JPG' %}" alt="Dupatta" class="w-full h-70 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+            </div>
+            <h3 class="text-lg font-bold mt-4" style="font-family: 'Playfair Display', serif;">Rajeshbhai Ashara</h3>
+            <p class="text-gray-600 mt-2">Founder</p>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/JIT_7333.JPG' %}" alt="Dupatta" class="w-full h-70object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+            </div>
+            <h3 class="text-lg font-bold mt-4" style="font-family: 'Playfair Display', serif;">Mayur Ashara</h3>
+            <p class="text-gray-600 mt-2">Manager</p>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

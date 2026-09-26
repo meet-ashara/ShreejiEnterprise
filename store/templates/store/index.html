@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Hero Section -->
+ {% block title %}Home{% endblock title %}
+{% block hero %}
+
+{% if messages %}
+<div class="container mx-auto px-4 mt-4">
+  <div class="space-y-2">
+    {% for message in messages %}
+    <div class="{% if message.tags == 'error' %}bg-red-100 text-red-800{% elif message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+      <script>
+        alert('{{ message }}');
+      </script>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+  .typewriter h2 {
+    overflow: hidden;
+    border-right: .15em solid #fff;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .08em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: #ffe4e6;
+    text-align: center;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #fff }
+  }
+</style>
+
+<section class="m-9 relative bg-cover bg-center h-[500px] sm:h-[600px] md:h-[700px] flex items-center justify-center text-center text-white rounded-xl overflow-hidden" style="background-image: url('{% static 'images/head.jpg' %}');">
+    
+    <!-- Dark Overlay for Better Text Visibility -->
+    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+    
+    <div class="relative z-10 p-6 sm:p-8 rounded-lg max-w-lg">
+        <div class="hero-section">
+            
+            <!-- Quote with Animation -->
+            <!-- Font Import -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400;600&display=swap');
+  </style>
+  
+  <!-- Hero Section -->
+  <div class="relative z-10 p-6 sm:p-8 rounded-lg max-w-xl mx-auto text-center">
+      
+    <!-- Quote -->
+    <h2 class="text-4xl sm:text-5xl font-semibold text-pink-100 leading-tight"
+        style="font-family: 'Playfair Display', serif;"
+        data-aos="fade-up" data-aos-duration="1000">
+      Elegance Woven in Every Thread.
+    </h2>
+  
+    <!-- Subtext -->
+    <p class="mt-3 text-lg sm:text-xl text-rose-100 tracking-wide"
+       style="font-family: 'Raleway', sans-serif;"
+       data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+      Pure Cotton & Rayon • Timeless Bandhani • Rich Colors
+    </p>
+  
+    <!-- Button -->
+    <a href="{% url 'product_list' %}"
+       class="mt-6 inline-block bg-rose-200 text-rose-950 px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition duration-300 transform hover:scale-105 hover:bg-rose-300"
+       data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000"
+       style="font-family: 'Raleway', sans-serif;">
+      Explore Now
+    </a>
+  </div>
+  
+</div>
+</section>
+{% endblock hero %}
+
+{% block product %}
+<!-- Product Section -->
+<section class="container mx-auto py-12">
+    <h1 class="text-4xl font-bold  text-rose-950 font- text-center mb-6 "
+    style="font-family: 'Menlo'" data-aos="fade-up">OUR BEST SELLER</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+        
+        <!-- Product Card 1 -->
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/1.jpg' %}" alt="Dupatta" class="w-full hover:scale-105 h-64 object-cover rounded-xl transition-transform duration-300 ">
+            </div>
+            <h3 class="text-lg font-bold mt-4">Elegant Cotton Dupatta</h3>
+            <p class="text-rose-950 mt-2">Pure handcrafted cotton</p>
+            {% comment %} <p class="text-blue-600 font-bold mt-2">₹599</p>
+            <button class="w-full mt-4 bg-orange-100 text-black px-4 py-2 rounded-lg">Add to Cart</button> {% endcomment %}
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/2.jpg' %}" alt="Dupatta" 
+                class="w-full h-64 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+            </div>
+            <h3 class="text-lg font-bold mt-4">Handloom Cotton Dupatta</h3>
+            <p class="text-rose-950 mt-2">Traditional handcrafted weave</p>
+            {% comment %} <p class="text-blue-600 font-bold mt-2">₹749</p>
+            <button class="w-full mt-4 bg-orange-100 text-black px-4 py-2 rounded-lg">Add to Cart</button> {% endcomment %}
+        </div>
+        
+        <!-- Product Card 3 -->
+        <div class="bg-white shadow-lg rounded-lg p-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="overflow-hidden rounded-xl">
+                <img src="{% static 'images/3.jpg' %}" alt="Dupatta" 
+                class="w-full h-64 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+            </div>
+            <h3 class="text-lg font-bold mt-4">Designer Cotton Dupatta</h3>
+            {% comment %} <p class="text-rose-950 mt-2">Exclusive patterns and designs</p>
+            <p class="text-blue-600 font-bold mt-2">₹899</p>
+            <button class="w-full mt-4 bg-orange-100 text-black px-4 py-2 rounded-lg">Add to Cart</button> {% endcomment %}
+        </div>
+        
+    </div>
+</section>
+<section class=" py-12">
+    <h2 class="text-3xl font-bold text-rose-950 text-center mb-6" data-aos="fade-up" style="font-family: 'Playfair Display', serif;">WHAT OUR CUSTOMER REVIEW</h2>
+    <div class="max-w-4xl mx-auto space-y-6">
+        <div class="bg-white shadow-md rounded-lg p-6" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-rose-950">"Absolutely love these dupattas! The fabric is so soft and the quality is top-notch. Will buy again!"</p>
+            <p class="text-rose-900 font-bold mt-2">- Priya Sharma</p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6" data-aos="fade-up" data-aos-delay="200">
+            <p class="text-rose-950">"I bought a handloom dupatta, and it's stunning! Perfect for traditional wear. Highly recommend!"</p>
+            <p class="text-rose-900 font-bold mt-2">- Ananya Verma</p>
+        </div>
+    </div>
+</section>
+{% endblock product %}
