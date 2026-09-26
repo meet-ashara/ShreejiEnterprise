@@ -46,10 +46,22 @@ INSTALLED_APPS = [
     
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Check if running in production on Render
+IS_RENDER = os.environ.get('RENDER') is not None
+
+if IS_RENDER:
+    # Forces emails to log in Render output instead of opening hanging sockets
+    EMAIL_BACKEND = os.environ.get(
+        'EMAIL_BACKEND',
+        'django.core.mail.backends.console.EmailBackend'
+    )
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_TIMEOUT = 5  # Prevents any SMTP call from hanging longer than 5 seconds!
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
