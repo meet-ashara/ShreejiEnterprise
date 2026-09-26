@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     
 ]
 
-# Check if running in production on Render
+# # Check if running in production on Render
 IS_RENDER = os.environ.get('RENDER') is not None
 
 if IS_RENDER:
