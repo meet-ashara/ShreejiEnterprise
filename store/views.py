@@ -214,7 +214,7 @@ def forgot_password(request):
                 f'Your OTP for password reset is {otp}. It will expire in 10 minutes.',
                 settings.EMAIL_HOST_USER,
                 [email],
-                fail_silently=False,
+                fail_silently=True,
             )
 
             messages.success(request, "✅ OTP has been sent to your email.")
