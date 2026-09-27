@@ -35,14 +35,17 @@ def register_view(request):
                 'name': form.cleaned_data.get('name'),
             }
 
-            # Send Email
-            send_mail(
-                'Verify Your Email - OTP',
-                f'Your OTP for registration is: {otp}. It will expire in 10 minutes.',
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
-            )
+            try:
+                send_mail(
+                    'Verify Your Email - OTP',
+                    f'Your OTP for registration is: {otp}. It will expire in 10 minutes.',
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print("OTP EMAIL ERROR:", repr(e))
+                raise
 
             messages.success(request, '📧 OTP sent to your email. Please verify.')
             return redirect('verify_email')
@@ -97,7 +100,7 @@ def verify_email(request):
 
 # @login_required(login_url='login')
 def home(request):
-    products = Product.objects.all()[:3] 
+    products = Product.objects.all()[:3]
     return render(request, 'index.html', {'products': products})
 
 @login_required(login_url='login')
@@ -192,9 +195,9 @@ def logout_view(request):
     logout(request)
 
     messages.success(request, "✅ Logged out successfully!")
-    return redirect('login') 
+    return redirect('login')
 
-# forgot password 
+# forgot password
 def forgot_password(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -208,14 +211,17 @@ def forgot_password(request):
             request.session['reset_otp'] = str(otp)
             request.session['reset_otp_expiry'] = expiry
 
-            # Send Email
-            send_mail(
-                'Password Reset OTP',
-                f'Your OTP for password reset is {otp}. It will expire in 10 minutes.',
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
-            )
+            try:
+                send_mail(
+                    'Password Reset OTP',
+                    f'Your OTP for password reset is {otp}. It will expire in 10 minutes.',
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print("PASSWORD RESET EMAIL ERROR:", repr(e))
+                raise
 
             messages.success(request, "✅ OTP has been sent to your email.")
             return redirect('verify_otp')
