@@ -41,7 +41,7 @@ def register_view(request):
                 f'Your OTP for registration is: {otp}. It will expire in 10 minutes.',
                 settings.EMAIL_HOST_USER,
                 [email],
-                fail_silently=True,
+                fail_silently=False,
             )
 
             messages.success(request, '📧 OTP sent to your email. Please verify.')
@@ -214,7 +214,7 @@ def forgot_password(request):
                 f'Your OTP for password reset is {otp}. It will expire in 10 minutes.',
                 settings.EMAIL_HOST_USER,
                 [email],
-                fail_silently=True,
+                fail_silently=False,
             )
 
             messages.success(request, "✅ OTP has been sent to your email.")
