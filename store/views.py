@@ -103,7 +103,7 @@ def home(request):
     products = Product.objects.all()[:3]
     return render(request, 'index.html', {'products': products})
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def product_list(request):
     products = Product.objects.prefetch_related('images').all()
 
